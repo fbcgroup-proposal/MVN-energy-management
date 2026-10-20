@@ -41,6 +41,10 @@ nav a.cta{background:var(--lime);color:var(--teal)}
 .pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
 .pill{border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600}
 .pill.l{background:var(--teal-4);color:var(--teal);border-color:var(--teal-4)}
+a.pill{text-decoration:none;color:var(--white);transition:background .15s,color .15s}
+a.pill.l{color:var(--teal)}
+a.pill:hover{background:var(--lime);color:var(--teal);border-color:var(--lime)}
+.act:target{box-shadow:0 0 0 3px var(--lime)}
 section{padding:72px 0;border-bottom:1px solid var(--line)}
 section.alt{background:var(--soft)}
 h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;margin:8px 0 12px;color:var(--teal);font-weight:700}
@@ -71,6 +75,7 @@ tr:nth-child(even) td{background:#f8fbfb}
 .act p{margin:0 0 8px;font-size:14px;color:var(--muted)}
 .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px}
 .meta span{background:var(--soft);border-radius:999px;padding:2px 10px;color:var(--teal-2)}
+.meta span.sub{background:var(--lime);color:var(--teal);font-weight:700}
 .adv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .adv .card .num{display:inline-flex;width:36px;height:36px;border-radius:50%;background:var(--lime);color:var(--teal);font-weight:700;align-items:center;justify-content:center;margin-bottom:12px}
 .adv .card p{margin:0;color:var(--muted);font-size:15px}
@@ -136,15 +141,15 @@ footer b{color:var(--lime)}
     <p>Diagnosi, monitoraggio, adempimenti e Energy Manager in un unico servizio. <b>FBC Group segue scadenze, dati e interventi sui 21 centri logistici.</b></p>
     <div class="kpis">
       <div class="kpi"><div class="n">21</div><div class="l">Siti logistici</div></div>
-      <div class="kpi"><div class="n">451,8<small>TEP/anno</small></div><div class="l">Consumi elettrici (gas da censire)</div></div>
-      <div class="kpi"><div class="n">18,9<small>TJ</small></div><div class="l">Sopra la soglia diagnosi di 10 TJ</div></div>
+      <div class="kpi"><div class="n">946,5<small>TEP</small></div><div class="l">Consumi elettrici gen–ago 2026 (gas da censire)</div></div>
+      <div class="kpi"><div class="n">18,2<small>TJ</small></div><div class="l">Energia finale elettrica gen–ago 2026 (soglia EED 10 TJ)</div></div>
       <div class="kpi"><div class="n">3</div><div class="l">Siti in diagnosi 2026</div></div>
     </div>
     <div class="pills">
-      <span class="pill">Diagnosi energetica</span>
-      <span class="pill l">Energy Manager</span>
-      <span class="pill">Monitoraggio e reportistica</span>
-      <span class="pill">Adempimenti ADM</span>
+      <a class="pill" href="#a-diagnosi">Diagnosi energetica</a>
+      <a class="pill l" href="#a-em">Energy Manager</a>
+      <a class="pill" href="#a-monitoraggio">Monitoraggio e reportistica</a>
+      <a class="pill" href="#a-adm">Adempimenti ADM</a>
     </div>
   </div>
 </div>
@@ -153,13 +158,13 @@ footer b{color:var(--lime)}
   <div class="wrap">
     <div class="sec-label">Proposta</div>
     <h2>Obblighi di MVN e attività del servizio</h2>
-    <p class="lead">MVN rientra negli obblighi di diagnosi sia oggi, come grande impresa, sia con la nuova direttiva europea, per i consumi. La nomina dell'Energy Manager e la certificazione ISO 50001 non sono obbligatorie.</p>
+    <p class="lead">MVN è oggi obbligata alla diagnosi energetica come grande impresa. Con il recepimento della nuova direttiva europea l'obbligo dipenderà dai consumi finali di tutti i vettori energetici, con soglia a 10 TJ.</p>
 
     <div class="grid2">
       <div class="card">
         <h3>Consumi di MVN rispetto alle soglie</h3>
         <div class="chart"><canvas id="cSoglie"></canvas></div>
-        <p class="note">Consumi solo elettrici, 451,8 TEP = 18,9 TJ. Con il gas il totale aumenta.</p>
+        <p class="note">Energia elettrica fatturata gennaio–agosto 2026: 5061 MWh = 18,2 TJ di energia finale (946,5 TEP). Gas da aggiungere dopo il censimento.</p>
       </div>
       <div class="card">
         <h3>Inquadramento normativo</h3>
@@ -167,9 +172,9 @@ footer b{color:var(--lime)}
         <table>
           <tr><th>Adempimento</th><th>Riferimento</th><th>Esito</th></tr>
           <tr><td>Diagnosi energetica ogni 4 anni</td><td>D.Lgs. 102/2014, art. 8 e all. 2</td><td><span class="tag t-ob">Obbligo</span></td></tr>
-          <tr><td>Diagnosi sopra 10 TJ, piano d'azione agli amministratori</td><td>Dir. (UE) 2023/1791, art. 11 par. 2 (non ancora recepita)</td><td><span class="tag t-ob">Obbligo</span></td></tr>
+          <tr><td>Diagnosi sopra 10 TJ di energia finale, ogni 4 anni (prossima dopo quella 2026), piano d'azione agli amministratori</td><td>Dir. (UE) 2023/1791, art. 11 par. 2 (non ancora recepita)</td><td><span class="tag t-ob">Obbligo</span></td></tr>
           <tr><td>Sistema di gestione ISO 50001 sopra 85 TJ</td><td>Dir. (UE) 2023/1791, art. 11 par. 1</td><td><span class="tag t-no">Non dovuto</span></td></tr>
-          <tr><td>Nomina Energy Manager sopra 1.000 TEP (non industria)</td><td>L. 10/1991, art. 19</td><td><span class="tag t-vo">Volontaria</span></td></tr>
+          <tr><td>Nomina Energy Manager sopra 1.000 TEP/anno (non industria), comunicazione entro il 30 aprile</td><td>L. 10/1991, art. 19</td><td><span class="tag t-ob">Obbligo</span></td></tr>
           <tr><td>Officine elettriche: impianti FV sopra 20 kW</td><td>D.Lgs. 504/1995, artt. 52-53; D.Lgs. 43/2025; Circ. ADM 13/2025</td><td><span class="tag t-ob">Se presenti</span></td></tr>
           <tr><td>Piano di monitoraggio sui siti individuati</td><td>Linee guida ENEA, 2ª ed. 2021, §7.3.2</td><td><span class="tag t-ob">Obbligo</span></td></tr>
         </table>
@@ -178,7 +183,6 @@ footer b{color:var(--lime)}
     </div>
 
     <h3 style="margin-top:48px">Attività incluse</h3>
-    <p class="lead" style="margin-bottom:20px">In verde lime le attività del servizio Energy Manager, in teal i servizi già proposti.</p>
     <div class="acts" id="acts"></div>
   </div>
 </section>
@@ -216,7 +220,7 @@ footer b{color:var(--lime)}
           <tr><th>Servizio</th><th>Rif.</th><th>Importo</th></tr>
         </table>
         </div>
-        <p class="note">Canone Energy Manager: esclusi le trasferte e i servizi quotati a parte. Le dichiarazioni ADM si quotano per impianto, dopo il censimento.</p>
+        <p class="note">Il canone Energy Manager comprende nomina e comunicazione FIRE, relazione annuale dei consumi (utilizzabile per il bilancio di sostenibilità), acquisto energia green, strategie energetiche, budget e contratti di fornitura, scadenziario e presidio normativo, interventi e incentivi, incontri con il referente, avvio del servizio e censimento di impianti FV e PDR gas. Esclusi l'acquisto delle garanzie d'origine e le trasferte. La contabilità energetica è inclusa con NEXUS. Le dichiarazioni ADM si applicano per impianto, dopo il censimento.</p>
       </div>
     </div>
     <div class="grid3" style="margin-top:24px">
@@ -253,39 +257,43 @@ footer b{color:var(--lime)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 // Canone annuo Energy Manager (€ + IVA): null = "da definire"
-const EM_CANONE = null;
+const EM_CANONE = 1200;
+// Dichiarazioni ADM (€ + IVA per impianto/anno), fuori dai totali finché non è noto il numero di impianti
+const ADM_IMPIANTO = 600;
 
 const ACTS = [
-  {em:1,t:'Nomina Energy Manager e comunicazione FIRE',d:'Nomina di un EGE FBC certificato e comunicazione annuale a FIRE.',f:'Annuale, entro 30 aprile',r:'L. 10/1991, art. 19; UNI CEI 11339'},
-  {em:1,t:'Contabilità energetica',d:'Fatture elettriche e gas dei 21 siti su NEXUS, controllo e segnalazione delle anomalie.',f:'Mensile',r:'—'},
+  {id:'a-em',em:1,t:'Nomina Energy Manager e comunicazione FIRE',d:'Nomina di un EGE FBC certificato e comunicazione annuale a FIRE.',f:'Annuale, entro 30 aprile',r:'L. 10/1991, art. 19; UNI CEI 11339'},
+  {em:1,inc:'Inclusa con NEXUS',t:'Contabilità energetica',d:'Fatture elettriche e gas dei 21 siti su NEXUS, controllo e segnalazione delle anomalie.',f:'Mensile',r:'—'},
   {em:1,t:'Relazione annuale dei consumi',d:'Consumi per sito e vettore, KPI e confronto con l\'anno precedente; utilizzabile per il bilancio di sostenibilità.',f:'Annuale, feb–mar',r:'—'},
-  {em:1,t:'Acquisto energia green',d:'Analisi del fabbisogno, offerte con garanzie d\'origine o PPA, confronto e supporto alla scelta.',f:'Annuale',r:'—'},
+  {em:1,t:'Acquisto energia green',d:'Analisi del fabbisogno, offerte con garanzie d\'origine o PPA, confronto e supporto alla scelta. Acquisto delle GO escluso.',f:'Annuale',r:'—'},
   {em:1,t:'Supporto alle strategie energetiche',d:'Roadmap pluriennale: autoproduzione, efficienza, decarbonizzazione e scelte di fornitura.',f:'Continuativa',r:'—'},
   {em:1,t:'Budget energia e contratti di fornitura',d:'Budget annuale di spesa, verifica di condizioni contrattuali e scadenze.',f:'Annuale, ott–nov',r:'—'},
   {em:1,t:'Scadenziario e presidio normativo',d:'Calendario degli adempimenti e aggiornamento sul recepimento della direttiva EED.',f:'Continuativa',r:'D.Lgs. 102/2014; Dir. (UE) 2023/1791'},
   {em:1,t:'Interventi e incentivi',d:'Valutazione tecnico-economica di interventi fuori diagnosi e degli incentivi applicabili.',f:'A richiesta',r:'Dir. (UE) 2023/1791, art. 11 par. 2'},
   {em:1,t:'Incontri con il referente MVN',d:'Due incontri all\'anno da remoto, con verbale e piano azioni.',f:'Semestrale',r:'—'},
   {em:1,t:'Censimento impianti fotovoltaici e PDR gas',d:'Impianti di proprietà per sito (potenza, licenza ADM, convenzioni GSE) e punti di prelievo gas.',f:'Una tantum, nov–dic 2026',r:'D.Lgs. 504/1995, art. 53'},
-  {em:1,t:'Dichiarazioni ADM (impianti sopra 20 kW)',d:'Registro mensile, dichiarazione AD1 semestrale, diritto di licenza.',f:'31/3, 30/9, 1–16/12',r:'D.Lgs. 504/1995; D.Lgs. 43/2025; Circ. ADM 13/2025'},
-  {em:0,t:'Diagnosi energetica 3 siti',d:'Clusterizzazione, sopralluoghi, rapporto e caricamento su Audit102; monitoraggio annuale degli interventi.',f:'Entro 5/12 e 22/12/2026',r:'D.Lgs. 102/2014, art. 8; UNI CEI EN 16247'},
-  {em:0,t:'Sistema di monitoraggio Alessandria',d:'Progettazione, fornitura e installazione dei misuratori per almeno il 50% dei consumi per area funzionale.',f:'Dopo la diagnosi',r:'Linee guida ENEA 2021, §7.3.2'},
+  {id:'a-adm',em:1,t:'Dichiarazioni ADM (impianti sopra 20 kW)',d:'Registro mensile, dichiarazione AD1 semestrale, diritto di licenza.',f:'31/3, 30/9, 1–16/12',r:'D.Lgs. 504/1995; D.Lgs. 43/2025; Circ. ADM 13/2025'},
+  {id:'a-diagnosi',em:0,t:'Diagnosi energetica 3 siti',d:'Clusterizzazione, sopralluoghi, rapporto e caricamento su Audit102; monitoraggio annuale degli interventi.',f:'Entro 5/12 e 22/12/2026',r:'D.Lgs. 102/2014, art. 8; UNI CEI EN 16247'},
+  {id:'a-monitoraggio',em:0,t:'Sistema di monitoraggio Alessandria',d:'Progettazione, fornitura e installazione dei misuratori per almeno il 50% dei consumi per area funzionale.',f:'Dopo la diagnosi',r:'Linee guida ENEA 2021, §7.3.2'},
   {em:0,t:'Reportistica mensile Alessandria',d:'Report interattivo, KPI dedicati, accesso alla piattaforma.',f:'Mensile, 12 mesi rinnovabili',r:'Linee guida ENEA 2021'}
 ];
 document.getElementById('acts').innerHTML = ACTS.map(a =>
-  `<div class="act ${a.em?'em':''}"><h4>${a.t}</h4><p>${a.d}</p><div class="meta"><span>${a.f}</span>${a.r!=='—'?`<span>${a.r}</span>`:''}</div></div>`).join('');
+  `<div class="act ${a.em?'em':''}"${a.id?` id="${a.id}"`:''}><h4>${a.t}</h4><p>${a.d}</p><div class="meta">${a.em?`<span class="sub">${a.inc||'Da sottoscrivere'}</span>`:''}<span>${a.f}</span>${a.r!=='—'?`<span>${a.r}</span>`:''}</div></div>`).join('');
 
 const ECO = [
   {s:'Diagnosi energetica 3 siti',r:'FBC-AQ-0147/26',v:13500,k:'u'},
   {s:'Sistema di monitoraggio Alessandria',r:'FBC-AQ-0148/26',v:15000,k:'u'},
   {s:'Reportistica mensile e piattaforma',r:'FBC-AQ-0149/26',v:5000,k:'a'},
-  {s:'Servizio Energy Manager',r:'Da emettere',v:EM_CANONE,k:'a'}
+  {s:'Servizio Energy Manager',r:'Da sottoscrivere',v:EM_CANONE,k:'a'}
 ];
 const eur = v => v.toLocaleString('it-IT',{useGrouping:false}) + ' €';
 const tEco = document.getElementById('tEco');
 ECO.forEach(e => tEco.insertAdjacentHTML('beforeend',
   `<tr><td>${e.s}</td><td>${e.r}</td><td>${e.v==null?'<span class="tag t-vo">Da definire</span>':eur(e.v)+(e.k==='a'?' /anno':'')}</td></tr>`));
+tEco.insertAdjacentHTML('beforeend',
+  `<tr><td>Dichiarazioni ADM (impianti FV sopra 20 kW)</td><td>Da sottoscrivere</td><td>${eur(ADM_IMPIANTO)} /impianto/anno</td></tr>`);
 const y1 = ECO.reduce((s,e)=>s+(e.v||0),0), y2 = ECO.filter(e=>e.k==='a').reduce((s,e)=>s+(e.v||0),0);
-const plus = EM_CANONE==null ? '<small> + canone EM</small>' : '';
+const plus = '<small> + ADM</small>';
 document.getElementById('pY1').innerHTML = eur(y1) + plus;
 document.getElementById('pY2').innerHTML = eur(y2) + plus + '<small> /anno</small>';
 
@@ -293,8 +301,8 @@ Chart.defaults.font.family = 'Figtree, system-ui, sans-serif';
 Chart.defaults.color = '#5b7076';
 new Chart(document.getElementById('cSoglie'), {
   type:'bar',
-  data:{labels:['Soglia diagnosi EED','MVN (solo EE)','Soglia ISO 50001'],
-    datasets:[{data:[10,18.9,85],backgroundColor:['#B0DEDD','#003740','#e6ecee'],borderRadius:8,barThickness:46}]},
+  data:{labels:['MVN (EE gen–ago 2026)','Soglia diagnosi EED','Soglia ISO 50001'],
+    datasets:[{data:[18.2,10,85],backgroundColor:['#003740','#B0DEDD','#e6ecee'],borderRadius:8,barThickness:46}]},
   options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.toLocaleString('it-IT')+' TJ'}}},
     scales:{y:{title:{display:true,text:'TJ/anno'},grid:{color:'#eef3f3'}},x:{grid:{display:false}}}}
 });
