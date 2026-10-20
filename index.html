@@ -44,7 +44,8 @@ nav a.cta{background:var(--lime);color:var(--teal)}
 a.pill{text-decoration:none;color:var(--white);transition:background .15s,color .15s}
 a.pill.l{color:var(--teal)}
 a.pill:hover{background:var(--lime);color:var(--teal);border-color:var(--lime)}
-.act:target{box-shadow:0 0 0 3px var(--lime)}
+.act:target{box-shadow:0 0 0 3px var(--teal-3)}
+.act.em:target{box-shadow:0 0 0 3px var(--lime)}
 section{padding:72px 0;border-bottom:1px solid var(--line)}
 section.alt{background:var(--soft)}
 h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;margin:8px 0 12px;color:var(--teal);font-weight:700}
@@ -98,6 +99,15 @@ tr:nth-child(even) td{background:#f8fbfb}
 .legend i{display:inline-block;width:16px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
 .price{font-size:30px;font-weight:700;color:var(--teal);line-height:1.1}
 .price small{font-size:14px;font-weight:500;color:var(--muted)}
+.contact{display:flex;gap:20px;align-items:center}
+.avatar{flex:none;width:72px;height:72px;border-radius:50%;background:var(--lime);color:var(--teal);font-weight:700;font-size:24px;display:flex;align-items:center;justify-content:center}
+.role{margin:4px 0 12px;color:rgba(255,255,255,.75);font-size:15px}
+.clink{color:var(--lime);font-weight:600;text-decoration:none}
+.clink:hover{text-decoration:underline}
+.cinfo{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px 16px;margin:12px 0 0;font-size:15px}
+.cinfo dt{color:var(--muted);font-weight:600}
+.cinfo dd{margin:0}
+.cinfo a{color:var(--teal);font-weight:600}
 footer{background:var(--teal);color:rgba(255,255,255,.8);padding:36px 0;font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 footer b{color:var(--lime)}
@@ -220,13 +230,8 @@ footer b{color:var(--lime)}
           <tr><th>Servizio</th><th>Rif.</th><th>Importo</th></tr>
         </table>
         </div>
-        <p class="note">Il canone Energy Manager comprende nomina e comunicazione FIRE, relazione annuale dei consumi (utilizzabile per il bilancio di sostenibilità), acquisto energia green, strategie energetiche, budget e contratti di fornitura, scadenziario e presidio normativo, interventi e incentivi, incontri con il referente, avvio del servizio e censimento di impianti FV e PDR gas. Esclusi l'acquisto delle garanzie d'origine e le trasferte. La contabilità energetica è inclusa con NEXUS. Le dichiarazioni ADM si applicano per impianto, dopo il censimento.</p>
+        <p class="note">Il canone Energy Manager comprende nomina e comunicazione FIRE, relazione annuale dei consumi (utilizzabile per il bilancio di sostenibilità), acquisto energia green, strategie energetiche, budget e contratti di fornitura, scadenziario e presidio normativo, interventi e incentivi, incontri con il referente, avvio del servizio e censimento di impianti FV e PDR gas. Esclusi l'acquisto delle garanzie d'origine e le trasferte. La contabilità energetica è inclusa con NEXUS. Le dichiarazioni ADM sono calcolate sull'ipotesi di 2 impianti FV sopra 20 kW: il numero effettivo si conferma con il censimento.</p>
       </div>
-    </div>
-    <div class="grid3" style="margin-top:24px">
-      <div class="card dark"><h3>Primo anno</h3><div class="price" id="pY1" style="color:#fff"></div><p class="note" style="color:rgba(255,255,255,.75)">Diagnosi, monitoraggio, reportistica e Energy Manager</p></div>
-      <div class="card"><h3>Anni successivi</h3><div class="price" id="pY2"></div><p class="note">Reportistica ed Energy Manager</p></div>
-      <div class="card"><h3>Pagamenti</h3><p style="margin:0;font-size:14px;color:var(--muted)">Diagnosi alla consegna del rapporto. Monitoraggio 50% alla sottoscrizione e saldo alla messa in servizio. Reportistica in due fatture semestrali.</p></div>
     </div>
   </div>
 </section>
@@ -247,7 +252,33 @@ footer b{color:var(--lime)}
   </div>
 </section>
 
-<footer id="contatti">
+<section id="contatti">
+  <div class="wrap">
+    <div class="sec-label">Contatti</div>
+    <h2>Parliamone</h2>
+    <p class="lead">Per domande sulla proposta o per fissare un incontro.</p>
+    <div class="grid2">
+      <div class="card dark contact">
+        <div class="avatar">DB</div>
+        <div>
+          <h3 style="margin:0">Davide Bussini</h3>
+          <p class="role">Direttore Generale, FBC Italia Srl</p>
+          <a class="clink" href="mailto:d.bussini@fbcitalia.it">d.bussini@fbcitalia.it</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>FBC Italia Srl</h3>
+        <dl class="cinfo">
+          <dt>Sito web</dt><dd><a href="https://www.fbcitalia.it" target="_blank" rel="noopener">www.fbcitalia.it</a></dd>
+          <dt>Telefono</dt><dd><a href="tel:+390236579400">+39 02 36 579 400</a></dd>
+          <dt>Indirizzo</dt><dd>Viale Thomas Alva Edison 110<br>20099 Sesto San Giovanni (MI)</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
   <div class="wrap">
     <div><b>FBC Italia Srl</b> · Viale Thomas A. Edison 110, 20099 Sesto San Giovanni (MI) · fbcitalia@pec.it</div>
     <div>Documento riservato a MVN S.r.l. · ottobre 2026</div>
@@ -257,12 +288,13 @@ footer b{color:var(--lime)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 // Canone annuo Energy Manager (€ + IVA): null = "da definire"
-const EM_CANONE = 1200;
-// Dichiarazioni ADM (€ + IVA per impianto/anno), fuori dai totali finché non è noto il numero di impianti
+const EM_CANONE = 2500;
+// Dichiarazioni ADM (€ + IVA per impianto/anno) e numero di impianti ipotizzato
 const ADM_IMPIANTO = 600;
+const ADM_N = 2;
 
 const ACTS = [
-  {id:'a-em',em:1,t:'Nomina Energy Manager e comunicazione FIRE',d:'Nomina di un EGE FBC certificato e comunicazione annuale a FIRE.',f:'Annuale, entro 30 aprile',r:'L. 10/1991, art. 19; UNI CEI 11339'},
+  {id:'a-em',em:1,inc:'Da sottoscrivere',t:'Nomina Energy Manager e comunicazione FIRE',d:'Nomina di un EGE FBC certificato e comunicazione annuale a FIRE.',f:'Annuale, entro 30 aprile',r:'L. 10/1991, art. 19; UNI CEI 11339'},
   {em:1,inc:'Inclusa con NEXUS',t:'Contabilità energetica',d:'Fatture elettriche e gas dei 21 siti su NEXUS, controllo e segnalazione delle anomalie.',f:'Mensile',r:'—'},
   {em:1,t:'Relazione annuale dei consumi',d:'Consumi per sito e vettore, KPI e confronto con l\'anno precedente; utilizzabile per il bilancio di sostenibilità.',f:'Annuale, feb–mar',r:'—'},
   {em:1,t:'Acquisto energia green',d:'Analisi del fabbisogno, offerte con garanzie d\'origine o PPA, confronto e supporto alla scelta. Acquisto delle GO escluso.',f:'Annuale',r:'—'},
@@ -272,30 +304,25 @@ const ACTS = [
   {em:1,t:'Interventi e incentivi',d:'Valutazione tecnico-economica di interventi fuori diagnosi e degli incentivi applicabili.',f:'A richiesta',r:'Dir. (UE) 2023/1791, art. 11 par. 2'},
   {em:1,t:'Incontri con il referente MVN',d:'Due incontri all\'anno da remoto, con verbale e piano azioni.',f:'Semestrale',r:'—'},
   {em:1,t:'Censimento impianti fotovoltaici e PDR gas',d:'Impianti di proprietà per sito (potenza, licenza ADM, convenzioni GSE) e punti di prelievo gas.',f:'Una tantum, nov–dic 2026',r:'D.Lgs. 504/1995, art. 53'},
-  {id:'a-adm',em:1,t:'Dichiarazioni ADM (impianti sopra 20 kW)',d:'Registro mensile, dichiarazione AD1 semestrale, diritto di licenza.',f:'31/3, 30/9, 1–16/12',r:'D.Lgs. 504/1995; D.Lgs. 43/2025; Circ. ADM 13/2025'},
+  {id:'a-adm',em:1,inc:'Da sottoscrivere',t:'Dichiarazioni ADM (impianti sopra 20 kW)',d:'Registro mensile, dichiarazione AD1 semestrale, diritto di licenza.',f:'31/3, 30/9, 1–16/12',r:'D.Lgs. 504/1995; D.Lgs. 43/2025; Circ. ADM 13/2025'},
   {id:'a-diagnosi',em:0,t:'Diagnosi energetica 3 siti',d:'Clusterizzazione, sopralluoghi, rapporto e caricamento su Audit102; monitoraggio annuale degli interventi.',f:'Entro 5/12 e 22/12/2026',r:'D.Lgs. 102/2014, art. 8; UNI CEI EN 16247'},
   {id:'a-monitoraggio',em:0,t:'Sistema di monitoraggio Alessandria',d:'Progettazione, fornitura e installazione dei misuratori per almeno il 50% dei consumi per area funzionale.',f:'Dopo la diagnosi',r:'Linee guida ENEA 2021, §7.3.2'},
   {em:0,t:'Reportistica mensile Alessandria',d:'Report interattivo, KPI dedicati, accesso alla piattaforma.',f:'Mensile, 12 mesi rinnovabili',r:'Linee guida ENEA 2021'}
 ];
 document.getElementById('acts').innerHTML = ACTS.map(a =>
-  `<div class="act ${a.em?'em':''}"${a.id?` id="${a.id}"`:''}><h4>${a.t}</h4><p>${a.d}</p><div class="meta">${a.em?`<span class="sub">${a.inc||'Da sottoscrivere'}</span>`:''}<span>${a.f}</span>${a.r!=='—'?`<span>${a.r}</span>`:''}</div></div>`).join('');
+  `<div class="act ${a.em?'em':''}"${a.id?` id="${a.id}"`:''}><h4>${a.t}</h4><p>${a.d}</p><div class="meta">${a.em?`<span class="sub">${a.inc||'Inclusa con Energy Manager'}</span>`:''}<span>${a.f}</span>${a.r!=='—'?`<span>${a.r}</span>`:''}</div></div>`).join('');
 
 const ECO = [
   {s:'Diagnosi energetica 3 siti',r:'FBC-AQ-0147/26',v:13500,k:'u'},
   {s:'Sistema di monitoraggio Alessandria',r:'FBC-AQ-0148/26',v:15000,k:'u'},
   {s:'Reportistica mensile e piattaforma',r:'FBC-AQ-0149/26',v:5000,k:'a'},
-  {s:'Servizio Energy Manager',r:'Da sottoscrivere',v:EM_CANONE,k:'a'}
+  {s:'Servizio Energy Manager',r:'Da sottoscrivere',v:EM_CANONE,k:'a'},
+  {s:`Dichiarazioni ADM (ipotesi ${ADM_N} impianti FV)`,r:'Da sottoscrivere',v:ADM_IMPIANTO*ADM_N,k:'a',x:`${ADM_IMPIANTO} € per impianto`}
 ];
 const eur = v => v.toLocaleString('it-IT',{useGrouping:false}) + ' €';
 const tEco = document.getElementById('tEco');
 ECO.forEach(e => tEco.insertAdjacentHTML('beforeend',
-  `<tr><td>${e.s}</td><td>${e.r}</td><td>${e.v==null?'<span class="tag t-vo">Da definire</span>':eur(e.v)+(e.k==='a'?' /anno':'')}</td></tr>`));
-tEco.insertAdjacentHTML('beforeend',
-  `<tr><td>Dichiarazioni ADM (impianti FV sopra 20 kW)</td><td>Da sottoscrivere</td><td>${eur(ADM_IMPIANTO)} /impianto/anno</td></tr>`);
-const y1 = ECO.reduce((s,e)=>s+(e.v||0),0), y2 = ECO.filter(e=>e.k==='a').reduce((s,e)=>s+(e.v||0),0);
-const plus = '<small> + ADM</small>';
-document.getElementById('pY1').innerHTML = eur(y1) + plus;
-document.getElementById('pY2').innerHTML = eur(y2) + plus + '<small> /anno</small>';
+  `<tr><td>${e.s}</td><td>${e.r}</td><td>${e.v==null?'<span class="tag t-vo">Da definire</span>':eur(e.v)+(e.k==='a'?' /anno':'')+(e.x?`<br><small>${e.x}</small>`:'')}</td></tr>`));
 
 Chart.defaults.font.family = 'Figtree, system-ui, sans-serif';
 Chart.defaults.color = '#5b7076';
@@ -309,7 +336,7 @@ new Chart(document.getElementById('cSoglie'), {
 const ecoData = ECO.filter(e=>e.v!=null);
 new Chart(document.getElementById('cEco'), {
   type:'doughnut',
-  data:{labels:ecoData.map(e=>e.s),datasets:[{data:ecoData.map(e=>e.v),backgroundColor:['#003740','#7CC8C6','#EAFF00','#8C5CDE'],borderWidth:2,borderColor:'#fff'}]},
+  data:{labels:ecoData.map(e=>e.s),datasets:[{data:ecoData.map(e=>e.v),backgroundColor:['#003740','#7CC8C6','#EAFF00','#8C5CDE','#9AA5B1'],borderWidth:2,borderColor:'#fff'}]},
   options:{maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>' '+eur(c.raw)}}}}
 });
 
