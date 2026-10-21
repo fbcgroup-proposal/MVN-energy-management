@@ -7,18 +7,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
 <style>
 :root{
   --teal:#003740;--teal-2:#0A454E;--teal-3:#7CC8C6;--teal-4:#B0DEDD;--lime:#EAFF00;
   --ink:#0d2a30;--muted:#5b7076;--line:#d7e3e4;--soft:#f2f7f7;--white:#fff;
-  --green:#48AA2D;--violet:#8C5CDE;
+  --green:#48AA2D;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
 body{margin:0;font-family:Figtree,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--white);line-height:1.6;font-size:16px}
 a{color:inherit}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:10;background:var(--white);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:1000;background:var(--white);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:20px;height:72px}
 .logos{display:flex;align-items:center;gap:16px}
 .logos img{display:block}
@@ -26,109 +28,76 @@ header{position:sticky;top:0;z-index:10;background:var(--white);border-bottom:1p
 nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
 nav a{text-decoration:none;font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px;color:var(--teal)}
 nav a:hover,nav a.on{background:var(--teal);color:var(--white)}
-nav a.cta{background:var(--lime);color:var(--teal)}
 .hero{background:var(--teal);color:var(--white);position:relative;overflow:hidden}
 .hero:after{content:"";position:absolute;right:-180px;top:-220px;width:620px;height:620px;border:2px solid var(--lime);border-radius:50%;opacity:.55}
-.hero .wrap{padding-top:72px;padding-bottom:64px;position:relative;z-index:1}
+.hero .wrap{padding-top:72px;padding-bottom:56px;position:relative;z-index:1}
 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
 .hero h1{font-size:clamp(34px,5vw,56px);line-height:1.08;margin:12px 0 18px;font-weight:700;max-width:760px}
 .hero p{max-width:640px;color:rgba(255,255,255,.85);font-size:18px;margin:0}
 .hero p b{color:var(--lime);font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:48px}
-.kpi .n{font-size:34px;font-weight:700;line-height:1}
-.kpi .n small{font-size:14px;font-weight:500;margin-left:4px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,260px));gap:32px;margin-top:48px}
+.kpi .n{font-size:40px;font-weight:700;line-height:1}
+.kpi .n small{font-size:15px;font-weight:500;margin-left:4px}
+.kpi .n sup{color:var(--lime);font-size:20px;margin-left:2px}
 .kpi .l{font-size:14px;color:rgba(255,255,255,.75);margin-top:6px}
-.pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
-.pill{border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600}
-.pill.l{background:var(--teal-4);color:var(--teal);border-color:var(--teal-4)}
-a.pill{text-decoration:none;color:var(--white);transition:background .15s,color .15s,border-color .15s}
-a.pill.p-teal{background:var(--teal-3);border-color:var(--teal-3);color:var(--teal)}
-a.pill.p-lime{background:var(--lime);border-color:var(--lime);color:var(--teal)}
-a.pill.p-adm{background:#f2c94c;border-color:#f2c94c;color:#5a4300}
-a.pill:hover{background:var(--white);border-color:var(--white);color:var(--teal)}
-.act.em.adm{border-left-color:#f2c94c}
-.act.adm .meta span.sub{background:#f2c94c;color:#5a4300}
+.foot{font-size:13px;color:rgba(255,255,255,.7);margin-top:20px}
+.foot b{color:var(--lime)}
 section{padding:72px 0;border-bottom:1px solid var(--line)}
 section.alt{background:var(--soft)}
 h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;margin:8px 0 12px;color:var(--teal);font-weight:700}
 h3{font-size:20px;margin:0 0 8px;color:var(--teal)}
-.lead{color:var(--muted);max-width:760px;margin:0 0 32px;font-size:17px}
+.lead{color:var(--muted);max-width:780px;margin:0 0 32px;font-size:17px}
 .sec-label{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:22px}
-.card.dark{background:var(--teal);color:var(--white);border-color:var(--teal)}
-.card.dark h3{color:var(--lime)}
-.chart{position:relative;height:300px}
-.note{font-size:13px;color:var(--muted);margin-top:10px}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 th{background:var(--teal);color:var(--white);font-weight:600}
 tr:nth-child(even) td{background:#f8fbfb}
-.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--white)}
 .tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
 .t-ob{background:#fff3c4;color:#6b5300}
-.t-vo{background:var(--teal-4);color:var(--teal)}
-.t-no{background:#e6ecee;color:var(--muted)}
-.t-q{background:#eaf5e4;color:#2f6d1d}
-.acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.acts3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .act{border:1px solid var(--line);border-left:4px solid var(--teal-3);border-radius:0 12px 12px 0;padding:16px 18px;background:var(--white)}
 .act.em{border-left-color:var(--lime)}
 .act h4{margin:0 0 4px;font-size:16px;color:var(--teal)}
 .act p{margin:0 0 8px;font-size:14px;color:var(--muted)}
 .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px}
 .meta span{background:var(--soft);border-radius:999px;padding:2px 10px;color:var(--teal-2)}
-.meta span.sub{background:var(--lime);color:var(--teal);font-weight:700}
-.meta span.done{background:var(--teal-3);color:var(--teal);font-weight:700}
-.acts3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.spec{margin-top:16px}
+.meta span.on{background:var(--teal-3);color:var(--teal);font-weight:700}
+.em-intro{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:stretch;margin-bottom:24px}
+.em-intro p{margin:0 0 12px;font-size:17px}
+.price{background:var(--teal);color:var(--white);border-radius:16px;padding:24px;display:flex;flex-direction:column;justify-content:center}
+.price .lbl{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
+.price .v{font-size:44px;font-weight:700;line-height:1.05;margin-top:8px}
+.price .v small{font-size:16px;font-weight:500}
+.price .y{font-size:16px;color:rgba(255,255,255,.85);margin-top:6px}
+.price p{font-size:14px;color:rgba(255,255,255,.75);margin:14px 0 0}
 .spec th{background:var(--soft);color:var(--teal)}
 .spec td b{color:var(--teal);font-weight:600}
-.adv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.adv .card .num{display:inline-flex;width:36px;height:36px;border-radius:50%;background:var(--lime);color:var(--teal);font-weight:700;align-items:center;justify-content:center;margin-bottom:12px}
-.adv .card p{margin:0;color:var(--muted);font-size:15px}
-.gantt{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--white);padding:14px}
-.g{min-width:860px}
-.gr{display:grid;grid-template-columns:230px repeat(14,minmax(0,1fr));align-items:center;column-gap:3px;min-height:34px;border-bottom:1px solid var(--line)}
-.gr:last-child{border-bottom:none}
-.gl{font-size:13px;padding-right:8px}
-.gq .gl{color:var(--muted)}
-.gh{font-size:12px;font-weight:600;color:var(--muted);text-align:center}
-.gy{font-size:12px;font-weight:700;color:var(--teal);text-align:center;border-bottom:2px solid var(--teal)}
-.b{grid-row:1;height:16px;border-radius:5px}
-.b.t{height:6px}
-.m{grid-row:1;font-size:11px;font-weight:700;text-align:center;border-radius:5px;padding:2px 0;white-space:nowrap;overflow:hidden;z-index:1}
-.k-n{background:var(--teal-3);color:var(--teal)}
-.k-e{background:var(--lime);color:var(--teal)}
-.k-o{background:#f2c94c;color:#5a4300}
-.k-q{background:#c9d4d7;color:#33494f}
-.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:14px}
-.legend i{display:inline-block;width:16px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
-.price{font-size:30px;font-weight:700;color:var(--teal);line-height:1.1}
-.price small{font-size:14px;font-weight:500;color:var(--muted)}
-.contact{display:flex;gap:20px;align-items:center}
-.avatar{flex:none;width:72px;height:72px;border-radius:50%;background:var(--lime);color:var(--teal);font-weight:700;font-size:24px;display:flex;align-items:center;justify-content:center}
-.role{margin:4px 0 12px;color:rgba(255,255,255,.75);font-size:15px}
-.clink{color:var(--lime);font-weight:600;text-decoration:none}
-.clink:hover{text-decoration:underline}
-.cinfo{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px 16px;margin:12px 0 0;font-size:15px}
-.cinfo dt{color:var(--muted);font-weight:600}
-.cinfo dd{margin:0}
-.cinfo a{color:var(--teal);font-weight:600}
-footer{background:var(--teal);color:rgba(255,255,255,.8);padding:36px 0;font-size:14px}
+#map{height:520px;border-radius:16px;border:1px solid var(--line);z-index:0}
+.pin{width:16px;height:16px;border-radius:50%;background:var(--teal);border:3px solid var(--lime);box-shadow:0 0 0 1px var(--teal)}
+.clu{display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--teal);color:var(--lime);font-weight:700;border:3px solid var(--lime);box-shadow:0 0 0 2px rgba(0,55,64,.25)}
+.leaflet-popup-content{font-family:Figtree,system-ui,sans-serif;font-size:14px;line-height:1.45}
+.leaflet-popup-content b{color:var(--teal)}
+.pods{margin-top:24px;max-height:560px;overflow:auto}
+.pods th{position:sticky;top:0}
+.pods td.pod{font-family:ui-monospace,Consolas,monospace;font-size:13px;white-space:nowrap}
+footer{background:var(--teal);color:rgba(255,255,255,.8);padding:28px 0;font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 footer b{color:var(--lime)}
 @media (max-width:900px){
-  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .grid2,.grid3,.adv,.acts,.acts3{grid-template-columns:minmax(0,1fr)}
+  .acts3,.em-intro{grid-template-columns:minmax(0,1fr)}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
   nav{display:none}
   .bar{height:64px}
+  #map{height:420px}
 }
 @media (max-width:520px){
   .wrap{padding:0 16px}
   .logos img.fbc{height:24px!important}
   .logos img.mvn{height:26px!important}
   section{padding:52px 0}
+  .kpi .n{font-size:32px}
 }
 </style>
 </head>
@@ -142,249 +111,147 @@ footer b{color:var(--lime)}
       <img class="mvn" src="mvn.png" alt="MVN" style="height:34px">
     </div>
     <nav id="nav">
-      <a href="#proposta">Proposta</a>
-      <a href="#vantaggi">Vantaggi</a>
-      <a href="#economia">Parte economica</a>
-      <a href="#timeline">Timeline</a>
-      <a class="cta" href="#contatti">Contatti</a>
+      <a href="#obblighi">Obblighi</a>
+      <a href="#servizi">Servizi attivi</a>
+      <a href="#energy-manager">Energy Manager</a>
+      <a href="#siti">Siti e POD</a>
     </nav>
   </div>
 </header>
 
 <div class="hero">
   <div class="wrap">
-    <div class="eyebrow">Proposta di Energy Management · nov 2026 – dic 2027</div>
+    <div class="eyebrow">Proposta di Energy Management · MVN S.r.l.</div>
     <h1>Un solo partner per gli obblighi e la strategia energetica di MVN.</h1>
     <p>Diagnosi, monitoraggio, adempimenti e Energy Manager in un unico servizio. <b>FBC Group segue scadenze, dati e interventi su tutti i centri logistici.</b></p>
     <div class="kpis">
-      <div class="kpi"><div class="n">946,5<small>TEP</small></div><div class="l">Consumi elettrici gen–ago 2026 (gas da censire)</div></div>
-      <div class="kpi"><div class="n">18,2<small>TJ</small></div><div class="l">Energia finale elettrica gen–ago 2026 (soglia EED 10 TJ)</div></div>
-      <div class="kpi"><div class="n">3</div><div class="l">Siti in diagnosi 2026</div></div>
+      <div class="kpi"><div class="n">1419,7<small>TEP</small><sup>*</sup></div><div class="l">Consumi elettrici 2026</div></div>
+      <div class="kpi"><div class="n">27,3<small>TJ</small><sup>*</sup></div><div class="l">Energia finale elettrica 2026</div></div>
     </div>
-    <div class="pills">
-      <a class="pill p-teal" href="#a-diagnosi">Diagnosi energetica</a>
-      <a class="pill p-lime" href="#a-em">Energy Manager</a>
-      <a class="pill p-teal" href="#a-monitoraggio">Monitoraggio e reportistica</a>
-      <a class="pill p-adm" href="#a-adm">Adempimenti ADM</a>
-    </div>
+    <div class="foot"><b>*stima 2026</b>: energia elettrica fatturata gennaio–agosto 2026 (5061 MWh) riportata a 12 mesi; gas escluso, da censire.</div>
   </div>
 </div>
 
-<section id="proposta">
+<section id="obblighi">
   <div class="wrap">
-    <div class="sec-label">Proposta</div>
-    <h2>Obblighi di MVN e attività del servizio</h2>
-    <p class="lead">MVN è oggi obbligata alla diagnosi energetica come grande impresa. Con il recepimento della nuova direttiva europea l'obbligo dipenderà dai consumi finali di tutti i vettori energetici, con soglia a 10 TJ.</p>
-
-    <div class="grid2">
-      <div class="card">
-        <h3>Consumi di MVN rispetto alle soglie</h3>
-        <div class="chart"><canvas id="cSoglie"></canvas></div>
-        <p class="note">Energia elettrica fatturata gennaio–agosto 2026: 5061 MWh = 18,2 TJ di energia finale (946,5 TEP). Gas da aggiungere dopo il censimento.</p>
-      </div>
-      <div class="card">
-        <h3>Inquadramento normativo</h3>
-        <div class="tbl" style="border:none">
-        <table>
-          <tr><th>Adempimento</th><th>Riferimento</th><th>Esito</th></tr>
-          <tr><td>Diagnosi energetica ogni 4 anni</td><td>D.Lgs. 102/2014, art. 8 e all. 2</td><td><span class="tag t-ob">Obbligo</span></td></tr>
-          <tr><td>Diagnosi sopra 10 TJ di energia finale, ogni 4 anni (prossima dopo quella 2026), piano d'azione agli amministratori</td><td>Dir. (UE) 2023/1791, art. 11 par. 2 (non ancora recepita)</td><td><span class="tag t-ob">Obbligo</span></td></tr>
-          <tr><td>Sistema di gestione ISO 50001 sopra 85 TJ</td><td>Dir. (UE) 2023/1791, art. 11 par. 1</td><td><span class="tag t-no">Non dovuto</span></td></tr>
-          <tr><td>Nomina Energy Manager sopra 1.000 TEP/anno (non industria), comunicazione entro il 30 aprile</td><td>L. 10/1991, art. 19</td><td><span class="tag t-ob">Obbligo</span></td></tr>
-          <tr><td>Officine elettriche: impianti FV sopra 20 kW</td><td>D.Lgs. 504/1995, artt. 52-53; D.Lgs. 43/2025; Circ. ADM 13/2025</td><td><span class="tag t-ob">Se presenti</span></td></tr>
-          <tr><td>Piano di monitoraggio sui siti individuati</td><td>Linee guida ENEA, 2ª ed. 2021, §7.3.2</td><td><span class="tag t-ob">Obbligo</span></td></tr>
-        </table>
-        </div>
-      </div>
-    </div>
-
-    <h3 style="margin-top:48px">Attività già sottoscritte</h3>
-    <div class="acts acts3" id="actsDone"></div>
-    <h3 style="margin-top:40px">Attività da sottoscrivere</h3>
-    <div id="actsTodo"></div>
-  </div>
-</section>
-
-<section id="vantaggi" class="alt">
-  <div class="wrap">
-    <div class="sec-label">Vantaggi</div>
-    <h2>Perché affidare la gestione a FBC Group</h2>
-    <p class="lead">Un solo interlocutore per obblighi, dati e scelte energetiche di tutti i siti.</p>
-    <div class="adv">
-      <div class="card"><div class="num">1</div><h3>Scadenze sotto controllo</h3><p>Diagnosi, verifica degli interventi e dichiarazioni ADM hanno date fisse e sanzioni (D.Lgs. 102/2014, art. 16). FBC le gestisce con uno scadenziario unico.</p></div>
-      <div class="card"><div class="num">2</div><h3>Dati in un solo punto</h3><p>Consumi e spesa di tutti i siti su NEXUS. Il controllo mensile delle fatture fa emergere errori e anomalie prima che si accumulino.</p></div>
-      <div class="card"><div class="num">3</div><h3>Continuità con la diagnosi</h3><p>Dati mensili e monitoraggio di Alessandria alimentano la diagnosi successiva, che non riparte da zero.</p></div>
-      <div class="card"><div class="num">4</div><h3>Interventi e incentivi</h3><p>Le proposte della diagnosi diventano un piano seguito nel tempo, con verifica degli incentivi applicabili.</p></div>
-      <div class="card"><div class="num">5</div><h3>Energia green e strategia</h3><p>Supporto all'acquisto di energia da fonti rinnovabili e a una strategia energetica pluriennale coerente con gli obiettivi del gruppo.</p></div>
-      <div class="card"><div class="num">6</div><h3>Dati per la sostenibilità</h3><p>La relazione annuale dei consumi è impostata per essere usata anche nel bilancio di sostenibilità.</p></div>
+    <div class="sec-label">Obblighi</div>
+    <h2>Adempimenti energetici di MVN</h2>
+    <p class="lead">Con i consumi 2026 MVN supera le soglie di legge per la diagnosi energetica e per la nomina dell'Energy Manager.</p>
+    <div class="tbl">
+      <table>
+        <tr><th>Adempimento</th><th>Riferimento</th><th>Esito</th></tr>
+        <tr><td>Diagnosi energetica ogni 4 anni</td><td>D.Lgs. 102/2014, art. 8 e all. 2</td><td><span class="tag t-ob">Obbligo</span></td></tr>
+        <tr><td>Diagnosi energetica ogni 4 anni</td><td>Dir. (UE) 2023/1791, art. 11 par. 2</td><td><span class="tag t-ob">Obbligo</span></td></tr>
+        <tr><td>Nomina Energy Manager</td><td>L. 10/1991, art. 19</td><td><span class="tag t-ob">Obbligo</span></td></tr>
+        <tr><td>Officine elettriche: dichiarazioni ADM</td><td>D.Lgs. 504/1995, artt. 52-53; D.Lgs. 43/2025; Circ. ADM 13/2025</td><td><span class="tag t-ob">Obbligo</span></td></tr>
+        <tr><td>Piano di monitoraggio sui siti individuati</td><td>Linee guida ENEA per la diagnosi energetica, 2ª ed. 2021, §7.3.2</td><td><span class="tag t-ob">Obbligo</span></td></tr>
+      </table>
     </div>
   </div>
 </section>
 
-<section id="economia">
+<section id="servizi" class="alt">
   <div class="wrap">
-    <div class="sec-label">Parte economica</div>
-    <h2>Corrispettivi</h2>
-    <p class="lead">Importi delle offerte già emesse e canone del servizio Energy Manager. Tutti gli importi sono al netto di IVA.</p>
-    <div class="grid2">
-      <div class="card">
-        <h3>Ripartizione dei corrispettivi</h3>
-        <div class="chart"><canvas id="cEco"></canvas></div>
-        <p class="note">Una tantum: diagnosi e sistema di monitoraggio. Canoni annui: reportistica ed Energy Manager.</p>
+    <div class="sec-label">Servizi attivi</div>
+    <h2>Servizi attivi</h2>
+    <div class="acts3" id="actsDone"></div>
+  </div>
+</section>
+
+<section id="energy-manager">
+  <div class="wrap">
+    <div class="sec-label">Energy Manager</div>
+    <h2>Attività gestite dall'Energy Manager</h2>
+    <div class="em-intro">
+      <div>
+        <p>La nomina dell'Energy Manager è obbligatoria per MVN (L. 10/1991, art. 19). Il ruolo sarà svolto da un Esperto in Gestione dell'Energia (EGE) di FBC certificato UNI CEI 11339.</p>
+        <p>L'Energy Manager diventa un'unica figura che gestisce tutti gli adempimenti, gli obblighi e le scadenze energetiche di MVN, è attivo su tutti i siti e ha anche l'obiettivo di ottimizzare i costi energetici.</p>
       </div>
-      <div class="card">
-        <div class="tbl" style="border:none">
-        <table id="tEco">
-          <tr><th>Servizio</th><th>Rif.</th><th>Importo</th></tr>
-        </table>
-        </div>
-        <p class="note">Il canone Energy Manager comprende nomina e comunicazione FIRE, relazione annuale dei consumi (utilizzabile per il bilancio di sostenibilità), acquisto energia green, strategie energetiche, budget e contratti di fornitura, scadenziario e presidio normativo, interventi e incentivi, incontri con il referente, avvio del servizio e censimento di impianti FV e PDR gas. Esclusi l'acquisto delle garanzie d'origine e le trasferte. La contabilità energetica è inclusa con NEXUS. Le dichiarazioni ADM sono calcolate sull'ipotesi di 2 impianti FV sopra 20 kW: il numero effettivo si conferma con il censimento.</p>
+      <div class="price">
+        <div class="lbl">La proposta</div>
+        <div class="v">2000 €<small> /mese</small></div>
+        <div class="y">24000 € /anno + IVA</div>
+        <p>Nomina dell'Energy Manager che segue tutte le attività elencate, per completare la governance energetica di MVN.</p>
       </div>
+    </div>
+    <div class="tbl spec">
+      <table id="emTable"><tr><th>Attività compresa</th><th>Contenuto</th><th>Frequenza</th><th>Riferimento</th></tr></table>
     </div>
   </div>
 </section>
 
-<section id="timeline" class="alt">
+<section id="siti" class="alt">
   <div class="wrap">
-    <div class="sec-label">Timeline</div>
-    <h2>Novembre 2026 – dicembre 2027</h2>
-    <p class="lead">Date fisse: diagnosi entro il 5/12 con invio a ENEA entro il 22/12, nomina a FIRE entro il 30/4, dichiarazioni AD1 entro 31/3 e 30/9, licenza ADM 1-16/12. Le altre date sono indicative e si concordano con MVN.</p>
-    <div class="gantt"><div class="g" id="gantt"></div></div>
-    <div class="legend">
-      <span><i class="k-e"></i>Energy Manager</span>
-      <span><i class="k-n"></i>Servizi già sottoscritti</span>
-      <span><i class="k-o"></i>Adempimenti ADM</span>
-      <span><i class="k-q"></i>Avvio e censimenti</span>
-      <span>Barra sottile: attività continuativa</span>
-    </div>
-  </div>
-</section>
-
-<section id="contatti">
-  <div class="wrap">
-    <div class="sec-label">Contatti</div>
-    <h2>Parliamone</h2>
-    <p class="lead">Per domande sulla proposta o per fissare un incontro.</p>
-    <div class="grid2">
-      <div class="card dark contact">
-        <div class="avatar">DB</div>
-        <div>
-          <h3 style="margin:0">Davide Bussini</h3>
-          <p class="role">Direttore Generale, FBC Italia Srl</p>
-          <a class="clink" href="mailto:d.bussini@fbcitalia.it">d.bussini@fbcitalia.it</a>
-        </div>
-      </div>
-      <div class="card">
-        <h3>FBC Italia Srl</h3>
-        <dl class="cinfo">
-          <dt>Sito web</dt><dd><a href="https://www.fbcitalia.it" target="_blank" rel="noopener">www.fbcitalia.it</a></dd>
-          <dt>Telefono</dt><dd><a href="tel:+390236579400">+39 02 36 579 400</a></dd>
-          <dt>Indirizzo</dt><dd>Viale Thomas Alva Edison 110<br>20099 Sesto San Giovanni (MI)</dd>
-        </dl>
-      </div>
+    <div class="sec-label">Siti e POD</div>
+    <h2>Dove opera l'Energy Manager</h2>
+    <p class="lead">Siti di MVN con fornitura elettrica attiva. Nei cerchi il numero di siti raggruppati: avvicinati alla mappa per vederli uno per uno.</p>
+    <div id="map"></div>
+    <div class="tbl pods">
+      <table id="podTable"><tr><th>POD</th><th>Indirizzo</th><th>Comune</th><th>CAP</th></tr></table>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div><b>FBC Italia Srl</b> · Viale Thomas A. Edison 110, 20099 Sesto San Giovanni (MI) · fbcitalia@pec.it</div>
+    <div><b>FBC Italia Srl</b> · www.fbcitalia.it</div>
     <div>Documento riservato a MVN S.r.l. · ottobre 2026</div>
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
 <script>
-// Canone annuo Energy Manager (€ + IVA): null = "da definire"
-const EM_CANONE = 2500;
-// Dichiarazioni ADM (€ + IVA per impianto/anno) e numero di impianti ipotizzato
-const ADM_IMPIANTO = 600;
-const ADM_N = 2;
+// Anagrafica POD da utenze-elettriche (3).xlsx; coordinate dei siti geocodificate da OpenStreetMap
+const PODS = [["IT001E10847313", "Via Sofocle", "Agrate Brianza", "20041"], ["IT001E06380991", "Via Alessandro III 39", "Alessandria", "15121"], ["IT001E11287496", "Via Elio Camagna", "Alessandria", "15121"], ["IT001E11356776", "Via Elio Camagna", "Alessandria", "15121"], ["IT001E11356777", "Via Elio Camagna", "Alessandria", "15121"], ["IT001E11356778", "Via Elio Camagna", "Alessandria", "15121"], ["IT001E12308742", "Via Elio Camagna", "Alessandria", "15121"], ["IT001E12323933", "Via Elio Camagna", "Alessandria", "15121"], ["IT001E04403509", "Via Battifollo 18", "Arcola", "19021"], ["IT001E12030548", "Via Domenico Zaccagna 6", "Carrara", "54033"], ["IT001E12030566", "Via Domenico Zaccagna 6", "Carrara", "54033"], ["IT001E41868296", "Via Domenico Zaccagna 6", "Carrara", "54033"], ["IT001E12814722", "Via Sicilia", "Casciana Terme Lari", "56035"], ["IT001E12914327", "Via Sicilia", "Casciana Terme Lari", "56035"], ["IT001E12914328", "Via Sicilia", "Casciana Terme Lari", "56035"], ["IT001E12914329", "Via Sicilia", "Casciana Terme Lari", "56035"], ["IT001E12914331", "Via Sicilia", "Casciana Terme Lari", "56035"], ["IT001E12914334", "Via Sicilia", "Casciana Terme Lari", "56035"], ["IT001E13105897", "Viale dell'Olmo 14", "Castelfranco di Sotto", "56022"], ["IT001E12462454", "Strada Statale 30", "Castellazzo Bormida", "15073"], ["IT001E12555473", "Strada Statale 30", "Castellazzo Bormida", "15073"], ["IT001E12555474", "Strada Statale 30", "Castellazzo Bormida", "15073"], ["IT001E12555475", "Strada Statale 30", "Castellazzo Bormida", "15073"], ["IT001E12555478", "Strada Statale 30", "Castellazzo Bormida", "15073"], ["IT001E00108831", "Viale Barberino", "Cavriglia", "52022"], ["IT001E18508989", "Via Roccafranca SP72", "Chiari", "25032"], ["IT001E11113320", "Cascina Argentina", "Codevilla", "27050"], ["IT001E16630646", "Strada Voghera Genestrello 31", "Codevilla", "27050"], ["IT001E11045254", "Via Palianese", "Colleferro", "00034"], ["IT001E90000872", "Via delle Colline", "Collesalvetti", "57017"], ["IT001E17859572", "Via Oslavia", "Desio", "20832"], ["IT001E12991886", "Via Policarpo Petrocchi 38", "Firenze", "50127"], ["IT001E12594951", "Via delle Due Case 2", "Firenze", "50127"], ["IT001E41861754", "Via di Genova", "Livorno", "57014"], ["IT012E13031765", "Via Benigno Crespi 57", "Milano", "20159"], ["IT012E00503466", "Via Tucidide", "Milano", "20134"], ["IT001E12877041", "Via delle Azalee", "Modugno", "70026"], ["IT002E2770546A", "Via dei Due Macelli 30", "Roma", "00187"], ["IT002E3304682A", "Via dei Due Macelli 30", "Roma", "00187"], ["IT002E3017751A", "Via dei Due Macelli 31", "Roma", "00187"], ["IT001E12487060", "Via Cassoletta", "Valsamoggia", "40056"], ["IT001E12898490", "Via Cassoletta", "Valsamoggia", "40056"], ["IT001E12898491", "Via Cassoletta", "Valsamoggia", "40056"], ["IT001E12898492", "Via Cassoletta", "Valsamoggia", "40056"], ["IT001E12450286", "Via della Geologia 33", "Venezia", "30176"]];
+const SITES = [["Chiari - Magazzini", "Chiari", ["Via Roccafranca SP72"], 1, 45.53738, 9.92958], ["Alessandria - Magazzini", "Alessandria", ["Via Elio Camagna"], 6, 44.89197, 8.61937], ["Cavriglia - Magazzini", "Cavriglia", ["Viale Barberino"], 1, 43.56538, 11.46647], ["Agrate Brianza - Magazzini e uffici", "Agrate Brianza", ["Via Sofocle"], 1, 45.5702, 9.32789], ["Codevilla - Magazzini", "Codevilla", ["Cascina Argentina", "Strada Voghera Genestrello 31"], 2, 44.98188, 9.04814], ["Desio - Magazzini", "Desio", ["Via Oslavia"], 1, 45.60308, 9.20745], ["Sarzana - Magazzini", "Arcola", ["Via Battifollo 18"], 1, 44.10149, 9.94471], ["Guasticce - Magazzini", "Collesalvetti", ["Via delle Colline"], 1, 43.58523, 10.36751], ["Carrara - Fiorino - Magazzini", "Carrara", ["Via Domenico Zaccagna 6"], 3, 44.06182, 10.07148], ["Lari - Magazzini", "Casciana Terme Lari", ["Via Sicilia"], 6, 43.61131, 10.61623], ["Alessandria", "Alessandria", ["Via Alessandro III 39"], 1, 44.9141, 8.61144], ["Roma", "Roma", ["Via dei Due Macelli 30", "Via dei Due Macelli 31"], 3, 41.90345, 12.48479], ["Firenze Ricasoli - Magazzini", "Firenze", ["Via Policarpo Petrocchi 38"], 1, 43.80863, 11.22556], ["Collesalvetti - Corà - Magazzini", "Livorno", ["Via di Genova"], 1, 43.56064, 10.43997], ["Castelfranco di Sotto - Magazzini", "Castelfranco di Sotto", ["Viale dell'Olmo 14"], 1, 43.76776, 10.67881], ["Venezia", "Venezia", ["Via della Geologia 33"], 1, 45.43434, 12.23008], ["Modugno", "Modugno", ["Via delle Azalee"], 1, 41.10887, 16.76207], ["Castellazzo - Magazzini", "Castellazzo Bormida", ["Strada Statale 30"], 5, 44.85931, 8.55668], ["Firenze Due Case - Magazzini", "Firenze", ["Via delle Due Case 2"], 1, 43.81074, 11.22178], ["Colleferro - Magazzini", "Colleferro", ["Via Palianese"], 1, 41.7592, 13.00688], ["Milano - Crespi", "Milano", ["Via Benigno Crespi 57"], 1, 45.504, 9.18429], ["Valsamoggia - via Cassoletta", "Valsamoggia", ["Via Cassoletta"], 4, 44.51713, 11.141], ["Milano - via Tucidide", "Milano", ["Via Tucidide"], 1, 45.47083, 9.24567]];
 
 const DONE = [
-  {id:'a-diagnosi',t:'Diagnosi energetica 3 siti',d:'Clusterizzazione, sopralluoghi, rapporto e caricamento su Audit102; monitoraggio annuale degli interventi.',f:'Entro 5/12 e 22/12/2026',r:'D.Lgs. 102/2014, art. 8; UNI CEI EN 16247'},
-  {id:'a-monitoraggio',t:'Sistema di monitoraggio Alessandria',d:'Progettazione, fornitura e installazione dei misuratori per almeno il 50% dei consumi per area funzionale.',f:'Dopo la diagnosi',r:'Linee guida ENEA 2021, §7.3.2'},
+  {t:'Diagnosi energetica',d:'Clusterizzazione, sopralluoghi, rapporto e caricamento su Audit102; monitoraggio annuale degli interventi.',f:'Entro 5/12 e 22/12/2026',r:'D.Lgs. 102/2014, art. 8; UNI CEI EN 16247'},
+  {t:'Sistema di monitoraggio Alessandria',d:'Progettazione, fornitura e installazione dei misuratori per almeno il 50% dei consumi per area funzionale.',f:'Dopo la diagnosi',r:'Linee guida ENEA 2021, §7.3.2'},
   {t:'Reportistica mensile Alessandria',d:'Report interattivo, KPI dedicati, accesso alla piattaforma.',f:'Mensile, 12 mesi rinnovabili',r:'Linee guida ENEA 2021'}
 ];
+document.getElementById('actsDone').innerHTML = DONE.map(a =>
+  `<div class="act"><h4>${a.t}</h4><p>${a.d}</p><div class="meta"><span class="on">Attivo</span><span>${a.f}</span><span>${a.r}</span></div></div>`).join('');
+
 // Attività comprese nella nomina dell'Energy Manager
 const EM_INC = [
-  ['Comunicazione della nomina a FIRE','Comunicazione annuale del nominativo dell\'EGE','Annuale, entro 30 aprile','L. 10/1991, art. 19'],
-  ['Relazione annuale dei consumi','Consumi per sito e vettore, KPI, confronto con l\'anno precedente; utilizzabile per il bilancio di sostenibilità','Annuale, feb–mar',''],
-  ['Contabilità energetica','Fatture elettriche e gas di tutti i siti su NEXUS, controllo e segnalazione delle anomalie (inclusa con NEXUS)','Mensile',''],
-  ['Acquisto energia green','Fabbisogno, offerte con garanzie d\'origine o PPA, confronto e scelta; acquisto delle GO escluso','Annuale',''],
-  ['Strategie energetiche','Roadmap pluriennale: autoproduzione, efficienza, decarbonizzazione, scelte di fornitura','Continuativa',''],
-  ['Budget energia e contratti di fornitura','Budget annuale di spesa, condizioni contrattuali e scadenze','Annuale, ott–nov',''],
+  ['Comunicazione della nomina a FIRE','Comunicazione annuale del nominativo dell\'EGE','Annuale, entro 30 aprile','L. 10/1991, art. 19 c. 1'],
+  ['Relazione annuale dei consumi','Consumi per sito e vettore, KPI, confronto con l\'anno precedente; utilizzabile per il bilancio di sostenibilità','Annuale, feb–mar','L. 10/1991, art. 19 c. 3 (bilanci energetici)'],
+  ['Dichiarazione consumi ADM','Registro mensile delle letture, dichiarazione AD1 semestrale, diritto di licenza degli impianti fotovoltaici sopra 20 kW','31/3, 30/9, 1–16/12','D.Lgs. 504/1995, artt. 52-53; D.Lgs. 43/2025; Circ. ADM 13/2025'],
+  ['Contabilità energetica','Fatture elettriche e gas di tutti i siti','Mensile','L. 10/1991, art. 19 c. 3 (dati energetici)'],
+  ['Acquisto energia green','Fabbisogno, offerte con garanzie d\'origine o PPA, confronto e scelta; acquisto delle GO escluso','Annuale','Dir. (UE) 2018/2001, art. 19 (garanzie d\'origine)'],
+  ['Strategie energetiche','Roadmap pluriennale: autoproduzione, efficienza, decarbonizzazione, scelte di fornitura','Continuativa','L. 10/1991, art. 19 c. 3; Dir. (UE) 2023/1791'],
+  ['Budget energia e contratti di fornitura','Budget annuale di spesa, condizioni contrattuali e scadenze','Annuale, ott–nov','L. 10/1991, art. 19 c. 3 (parametri economici)'],
   ['Scadenziario e presidio normativo','Calendario degli adempimenti, aggiornamento sul recepimento della direttiva EED','Continuativa','D.Lgs. 102/2014; Dir. (UE) 2023/1791'],
-  ['Interventi e incentivi','Valutazione tecnico-economica di interventi fuori diagnosi e degli incentivi applicabili','A richiesta','Dir. (UE) 2023/1791, art. 11 par. 2'],
-  ['Incontri con il referente MVN','Due incontri all\'anno da remoto, con verbale e piano azioni','Semestrale',''],
-  ['Avvio e censimenti','Anagrafica siti, POD e PDR gas; impianti fotovoltaici di proprietà (potenza, licenza ADM, convenzioni GSE)','Una tantum, nov–dic 2026','D.Lgs. 504/1995, art. 53']
+  ['Interventi e incentivi','Valutazione tecnico-economica di interventi fuori diagnosi e degli incentivi applicabili','A richiesta','Dir. (UE) 2023/1791, art. 11 par. 2; L. 10/1991, art. 19 c. 3'],
+  ['Incontri con il referente MVN','Due incontri all\'anno da remoto, con verbale e piano azioni','Semestrale','L. 10/1991, art. 19 c. 3'],
+  ['Avvio e censimenti','Anagrafica siti, POD e PDR gas; impianti fotovoltaici di proprietà (potenza, licenza ADM, convenzioni GSE)','Una tantum, nov–dic 2026','D.Lgs. 504/1995, art. 53; L. 10/1991, art. 19 c. 3']
 ];
-const meta = (tag, cls, f, r) => `<div class="meta"><span class="${cls}">${tag}</span><span>${f}</span>${r?`<span>${r}</span>`:''}</div>`;
-document.getElementById('actsDone').innerHTML = DONE.map(a =>
-  `<div class="act"${a.id?` id="${a.id}"`:''}><h4>${a.t}</h4><p>${a.d}</p>${meta('Già sottoscritta','done',a.f,a.r)}</div>`).join('');
-document.getElementById('actsTodo').innerHTML =
-  `<div class="act em" id="a-em"><h4>Nomina Energy Manager</h4><p>Nomina di un EGE FBC certificato UNI CEI 11339 come Energy Manager di MVN. La nomina comprende le attività elencate sotto.</p>${meta('Da sottoscrivere','sub','Annuale','L. 10/1991, art. 19; UNI CEI 11339')}
-    <div class="tbl spec"><table><tr><th>Attività compresa</th><th>Contenuto</th><th>Frequenza</th><th>Riferimento</th></tr>${
-      EM_INC.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]||'—'}</td></tr>`).join('')}</table></div></div>
-   <div class="act em adm" id="a-adm" style="margin-top:16px"><h4>Dichiarazioni ADM (impianti fotovoltaici sopra 20 kW)</h4><p>Registro mensile delle letture, dichiarazione AD1 semestrale, diritto di licenza. Servizio quotato per impianto, separato dalla nomina.</p>${meta('Da sottoscrivere','sub','31/3, 30/9, 1–16/12','D.Lgs. 504/1995; D.Lgs. 43/2025; Circ. ADM 13/2025')}</div>`;
+document.getElementById('emTable').insertAdjacentHTML('beforeend',
+  EM_INC.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join(''));
 
-const ECO = [
-  {s:'Diagnosi energetica 3 siti',r:'FBC-AQ-0147/26',v:13500,k:'u'},
-  {s:'Sistema di monitoraggio Alessandria',r:'FBC-AQ-0148/26',v:15000,k:'u'},
-  {s:'Reportistica mensile e piattaforma',r:'FBC-AQ-0149/26',v:5000,k:'a'},
-  {s:'Servizio Energy Manager',r:'Da sottoscrivere',v:EM_CANONE,k:'a'},
-  {s:`Dichiarazioni ADM (ipotesi ${ADM_N} impianti FV)`,r:'Da sottoscrivere',v:ADM_IMPIANTO*ADM_N,k:'a',x:`${ADM_IMPIANTO} € per impianto`}
-];
-const eur = v => v.toLocaleString('it-IT',{useGrouping:false}) + ' €';
-const tEco = document.getElementById('tEco');
-ECO.forEach(e => tEco.insertAdjacentHTML('beforeend',
-  `<tr><td>${e.s}</td><td>${e.r}</td><td>${e.v==null?'<span class="tag t-vo">Da definire</span>':eur(e.v)+(e.k==='a'?' /anno':'')+(e.x?`<br><small>${e.x}</small>`:'')}</td></tr>`));
+document.getElementById('podTable').insertAdjacentHTML('beforeend',
+  PODS.map(p => `<tr><td class="pod">${p[0]}</td><td>${p[1]}</td><td>${p[2]}</td><td>${p[3]}</td></tr>`).join(''));
 
-Chart.defaults.font.family = 'Figtree, system-ui, sans-serif';
-Chart.defaults.color = '#5b7076';
-new Chart(document.getElementById('cSoglie'), {
-  type:'bar',
-  data:{labels:['MVN (EE gen–ago 2026)','Soglia diagnosi EED','Soglia ISO 50001'],
-    datasets:[{data:[18.2,10,85],backgroundColor:['#003740','#B0DEDD','#e6ecee'],borderRadius:8,barThickness:46}]},
-  options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.toLocaleString('it-IT')+' TJ'}}},
-    scales:{y:{title:{display:true,text:'TJ/anno'},grid:{color:'#eef3f3'}},x:{grid:{display:false}}}}
+const map = L.map('map', {scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom:18, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+const cluster = L.markerClusterGroup({
+  maxClusterRadius:45, showCoverageOnHover:false,
+  iconCreateFunction: c => {
+    const n = c.getChildCount(), s = n < 5 ? 38 : n < 10 ? 46 : 54;
+    return L.divIcon({html:`<div class="clu" style="width:${s}px;height:${s}px">${n}</div>`, className:'', iconSize:[s,s]});
+  }
 });
-const ecoData = ECO.filter(e=>e.v!=null);
-new Chart(document.getElementById('cEco'), {
-  type:'doughnut',
-  data:{labels:ecoData.map(e=>e.s),datasets:[{data:ecoData.map(e=>e.v),backgroundColor:['#003740','#7CC8C6','#EAFF00','#8C5CDE','#9AA5B1'],borderWidth:2,borderColor:'#fff'}]},
-  options:{maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>' '+eur(c.raw)}}}}
+const pin = L.divIcon({html:'<div class="pin"></div>', className:'', iconSize:[22,22], iconAnchor:[11,11]});
+SITES.forEach(([name, comune, addr, nPod, lat, lon]) => {
+  cluster.addLayer(L.marker([lat, lon], {icon:pin})
+    .bindPopup(`<b>${name}</b><br>${addr.join(' / ')}, ${comune}<br>POD: ${nPod}`));
 });
-
-const M = ['nov','dic','gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
-const G = [
-  ['Avvio servizio e censimenti FV / gas','q',[['b',0,1]]],
-  ['Diagnosi 3 siti','n',[['b',0,1],['m',1,'5–22/12']]],
-  ['Scadenziario e presidio normativo','e',[['m',1,'cal.'],['t',2,13]]],
-  ['Contabilità energetica','e',[['b',1,13]]],
-  ['Relazione consumi e KPI 2026','e',[['b',3,4]]],
-  ['Nomina EM e comunicazione FIRE','e',[['m',5,'30/4']]],
-  ['Incontri con referente MVN','e',[['m',4,'inc.'],['m',10,'inc.']]],
-  ['Acquisto energia green','e',[['b',10,11]]],
-  ['Budget energia e contratti','e',[['m',1,'2027'],['b',11,12]]],
-  ['Strategie, interventi e incentivi','e',[['t',2,13]]],
-  ['Dichiarazioni ADM','o',[['t',0,13],['m',1,'lic.'],['m',4,'31/3'],['m',10,'30/9'],['m',13,'lic.']]],
-  ['Avanzamento interventi','n',[['m',4,'Q1'],['m',7,'Q2'],['m',10,'Q3'],['m',13,'Q4']]],
-  ['Monitoraggio Alessandria','n',[['b',2,5]]],
-  ['Reportistica Alessandria','n',[['b',6,13]]]
-];
-let h = '<div class="gr" style="min-height:24px;border-bottom:none"><div></div><div class="gy" style="grid-column:2/4">2026</div><div class="gy" style="grid-column:4/16">2027</div></div>';
-h += '<div class="gr"><div></div>' + M.map(m=>`<div class="gh">${m}</div>`).join('') + '</div>';
-G.forEach(([l,k,it]) => {
-  h += `<div class="gr"><div class="gl">${l}</div>`;
-  it.forEach(x => {
-    if (x[0]==='b') h += `<div class="b k-${k}" style="grid-column:${x[1]+2}/${x[2]+3}"></div>`;
-    if (x[0]==='t') h += `<div class="b t k-${k}" style="grid-column:${x[1]+2}/${x[2]+3}"></div>`;
-    if (x[0]==='m') h += `<div class="m k-${k}" style="grid-column:${x[1]+2}/${x[1]+3}">${x[2]}</div>`;
-  });
-  h += '</div>';
-});
-document.getElementById('gantt').innerHTML = h;
+map.addLayer(cluster);
+map.fitBounds(cluster.getBounds(), {padding:[30,30]});
 
 const links = [...document.querySelectorAll('#nav a')];
 const obs = new IntersectionObserver(es => es.forEach(e => {
