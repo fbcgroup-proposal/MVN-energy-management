@@ -79,6 +79,11 @@ tr:nth-child(even) td{background:#f8fbfb}
 .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px}
 .meta span{background:var(--soft);border-radius:999px;padding:2px 10px;color:var(--teal-2)}
 .meta span.sub{background:var(--lime);color:var(--teal);font-weight:700}
+.meta span.done{background:var(--teal-3);color:var(--teal);font-weight:700}
+.acts3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.spec{margin-top:16px}
+.spec th{background:var(--soft);color:var(--teal)}
+.spec td b{color:var(--teal);font-weight:600}
 .adv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .adv .card .num{display:inline-flex;width:36px;height:36px;border-radius:50%;background:var(--lime);color:var(--teal);font-weight:700;align-items:center;justify-content:center;margin-bottom:12px}
 .adv .card p{margin:0;color:var(--muted);font-size:15px}
@@ -115,7 +120,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 footer b{color:var(--lime)}
 @media (max-width:900px){
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .grid2,.grid3,.adv,.acts{grid-template-columns:minmax(0,1fr)}
+  .grid2,.grid3,.adv,.acts,.acts3{grid-template-columns:minmax(0,1fr)}
   nav{display:none}
   .bar{height:64px}
 }
@@ -194,8 +199,10 @@ footer b{color:var(--lime)}
       </div>
     </div>
 
-    <h3 style="margin-top:48px">Attività incluse</h3>
-    <div class="acts" id="acts"></div>
+    <h3 style="margin-top:48px">Attività già sottoscritte</h3>
+    <div class="acts acts3" id="actsDone"></div>
+    <h3 style="margin-top:40px">Attività da sottoscrivere</h3>
+    <div id="actsTodo"></div>
   </div>
 </section>
 
@@ -246,7 +253,7 @@ footer b{color:var(--lime)}
     <div class="gantt"><div class="g" id="gantt"></div></div>
     <div class="legend">
       <span><i class="k-e"></i>Energy Manager</span>
-      <span><i class="k-n"></i>Servizi già proposti</span>
+      <span><i class="k-n"></i>Servizi già sottoscritti</span>
       <span><i class="k-o"></i>Adempimenti ADM</span>
       <span><i class="k-q"></i>Avvio e censimenti</span>
       <span>Barra sottile: attività continuativa</span>
@@ -295,24 +302,32 @@ const EM_CANONE = 2500;
 const ADM_IMPIANTO = 600;
 const ADM_N = 2;
 
-const ACTS = [
-  {id:'a-em',em:1,inc:'Da sottoscrivere',t:'Nomina Energy Manager e comunicazione FIRE',d:'Nomina di un EGE FBC certificato e comunicazione annuale a FIRE.',f:'Annuale, entro 30 aprile',r:'L. 10/1991, art. 19; UNI CEI 11339'},
-  {em:1,inc:'Inclusa con NEXUS',t:'Contabilità energetica',d:'Fatture elettriche e gas dei 21 siti su NEXUS, controllo e segnalazione delle anomalie.',f:'Mensile',r:'—'},
-  {em:1,t:'Relazione annuale dei consumi',d:'Consumi per sito e vettore, KPI e confronto con l\'anno precedente; utilizzabile per il bilancio di sostenibilità.',f:'Annuale, feb–mar',r:'—'},
-  {em:1,t:'Acquisto energia green',d:'Analisi del fabbisogno, offerte con garanzie d\'origine o PPA, confronto e supporto alla scelta. Acquisto delle GO escluso.',f:'Annuale',r:'—'},
-  {em:1,t:'Supporto alle strategie energetiche',d:'Roadmap pluriennale: autoproduzione, efficienza, decarbonizzazione e scelte di fornitura.',f:'Continuativa',r:'—'},
-  {em:1,t:'Budget energia e contratti di fornitura',d:'Budget annuale di spesa, verifica di condizioni contrattuali e scadenze.',f:'Annuale, ott–nov',r:'—'},
-  {em:1,t:'Scadenziario e presidio normativo',d:'Calendario degli adempimenti e aggiornamento sul recepimento della direttiva EED.',f:'Continuativa',r:'D.Lgs. 102/2014; Dir. (UE) 2023/1791'},
-  {em:1,t:'Interventi e incentivi',d:'Valutazione tecnico-economica di interventi fuori diagnosi e degli incentivi applicabili.',f:'A richiesta',r:'Dir. (UE) 2023/1791, art. 11 par. 2'},
-  {em:1,t:'Incontri con il referente MVN',d:'Due incontri all\'anno da remoto, con verbale e piano azioni.',f:'Semestrale',r:'—'},
-  {em:1,t:'Censimento impianti fotovoltaici e PDR gas',d:'Impianti di proprietà per sito (potenza, licenza ADM, convenzioni GSE) e punti di prelievo gas.',f:'Una tantum, nov–dic 2026',r:'D.Lgs. 504/1995, art. 53'},
-  {id:'a-adm',em:1,cls:'adm',inc:'Da sottoscrivere',t:'Dichiarazioni ADM (impianti sopra 20 kW)',d:'Registro mensile, dichiarazione AD1 semestrale, diritto di licenza.',f:'31/3, 30/9, 1–16/12',r:'D.Lgs. 504/1995; D.Lgs. 43/2025; Circ. ADM 13/2025'},
-  {id:'a-diagnosi',em:0,t:'Diagnosi energetica 3 siti',d:'Clusterizzazione, sopralluoghi, rapporto e caricamento su Audit102; monitoraggio annuale degli interventi.',f:'Entro 5/12 e 22/12/2026',r:'D.Lgs. 102/2014, art. 8; UNI CEI EN 16247'},
-  {id:'a-monitoraggio',em:0,t:'Sistema di monitoraggio Alessandria',d:'Progettazione, fornitura e installazione dei misuratori per almeno il 50% dei consumi per area funzionale.',f:'Dopo la diagnosi',r:'Linee guida ENEA 2021, §7.3.2'},
-  {em:0,t:'Reportistica mensile Alessandria',d:'Report interattivo, KPI dedicati, accesso alla piattaforma.',f:'Mensile, 12 mesi rinnovabili',r:'Linee guida ENEA 2021'}
+const DONE = [
+  {id:'a-diagnosi',t:'Diagnosi energetica 3 siti',d:'Clusterizzazione, sopralluoghi, rapporto e caricamento su Audit102; monitoraggio annuale degli interventi.',f:'Entro 5/12 e 22/12/2026',r:'D.Lgs. 102/2014, art. 8; UNI CEI EN 16247'},
+  {id:'a-monitoraggio',t:'Sistema di monitoraggio Alessandria',d:'Progettazione, fornitura e installazione dei misuratori per almeno il 50% dei consumi per area funzionale.',f:'Dopo la diagnosi',r:'Linee guida ENEA 2021, §7.3.2'},
+  {t:'Reportistica mensile Alessandria',d:'Report interattivo, KPI dedicati, accesso alla piattaforma.',f:'Mensile, 12 mesi rinnovabili',r:'Linee guida ENEA 2021'}
 ];
-document.getElementById('acts').innerHTML = ACTS.map(a =>
-  `<div class="act ${a.em?'em':''} ${a.cls||''}"${a.id?` id="${a.id}"`:''}><h4>${a.t}</h4><p>${a.d}</p><div class="meta">${a.em?`<span class="sub">${a.inc||'Inclusa con Energy Manager'}</span>`:''}<span>${a.f}</span>${a.r!=='—'?`<span>${a.r}</span>`:''}</div></div>`).join('');
+// Attività comprese nella nomina dell'Energy Manager
+const EM_INC = [
+  ['Comunicazione della nomina a FIRE','Comunicazione annuale del nominativo dell\'EGE','Annuale, entro 30 aprile','L. 10/1991, art. 19'],
+  ['Relazione annuale dei consumi','Consumi per sito e vettore, KPI, confronto con l\'anno precedente; utilizzabile per il bilancio di sostenibilità','Annuale, feb–mar',''],
+  ['Contabilità energetica','Fatture elettriche e gas dei 21 siti su NEXUS, controllo e segnalazione delle anomalie (inclusa con NEXUS)','Mensile',''],
+  ['Acquisto energia green','Fabbisogno, offerte con garanzie d\'origine o PPA, confronto e scelta; acquisto delle GO escluso','Annuale',''],
+  ['Strategie energetiche','Roadmap pluriennale: autoproduzione, efficienza, decarbonizzazione, scelte di fornitura','Continuativa',''],
+  ['Budget energia e contratti di fornitura','Budget annuale di spesa, condizioni contrattuali e scadenze','Annuale, ott–nov',''],
+  ['Scadenziario e presidio normativo','Calendario degli adempimenti, aggiornamento sul recepimento della direttiva EED','Continuativa','D.Lgs. 102/2014; Dir. (UE) 2023/1791'],
+  ['Interventi e incentivi','Valutazione tecnico-economica di interventi fuori diagnosi e degli incentivi applicabili','A richiesta','Dir. (UE) 2023/1791, art. 11 par. 2'],
+  ['Incontri con il referente MVN','Due incontri all\'anno da remoto, con verbale e piano azioni','Semestrale',''],
+  ['Avvio e censimenti','Anagrafica siti, POD e PDR gas; impianti fotovoltaici di proprietà (potenza, licenza ADM, convenzioni GSE)','Una tantum, nov–dic 2026','D.Lgs. 504/1995, art. 53']
+];
+const meta = (tag, cls, f, r) => `<div class="meta"><span class="${cls}">${tag}</span><span>${f}</span>${r?`<span>${r}</span>`:''}</div>`;
+document.getElementById('actsDone').innerHTML = DONE.map(a =>
+  `<div class="act"${a.id?` id="${a.id}"`:''}><h4>${a.t}</h4><p>${a.d}</p>${meta('Già sottoscritta','done',a.f,a.r)}</div>`).join('');
+document.getElementById('actsTodo').innerHTML =
+  `<div class="act em" id="a-em"><h4>Nomina Energy Manager</h4><p>Nomina di un EGE FBC certificato UNI CEI 11339 come Energy Manager di MVN. La nomina comprende le attività elencate sotto.</p>${meta('Da sottoscrivere','sub','Annuale','L. 10/1991, art. 19; UNI CEI 11339')}
+    <div class="tbl spec"><table><tr><th>Attività compresa</th><th>Contenuto</th><th>Frequenza</th><th>Riferimento</th></tr>${
+      EM_INC.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]||'—'}</td></tr>`).join('')}</table></div></div>
+   <div class="act em adm" id="a-adm" style="margin-top:16px"><h4>Dichiarazioni ADM (impianti fotovoltaici sopra 20 kW)</h4><p>Registro mensile delle letture, dichiarazione AD1 semestrale, diritto di licenza. Servizio quotato per impianto, separato dalla nomina.</p>${meta('Da sottoscrivere','sub','31/3, 30/9, 1–16/12','D.Lgs. 504/1995; D.Lgs. 43/2025; Circ. ADM 13/2025')}</div>`;
 
 const ECO = [
   {s:'Diagnosi energetica 3 siti',r:'FBC-AQ-0147/26',v:13500,k:'u'},
